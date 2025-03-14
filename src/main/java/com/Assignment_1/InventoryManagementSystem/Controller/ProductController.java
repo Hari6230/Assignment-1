@@ -16,21 +16,21 @@ public class ProductController {
     private ProductService productService;
 
     @PostMapping("/create")
-    public Product createProduct(@RequestBody Product product) {
-        return productService.createProduct(product);
+    public ProductDto createProduct(@RequestBody ProductDto productDto) {
+        return productService.createProduct(productDto);
     }
 
-    @GetMapping
+    @GetMapping("/getall")
     public List<ProductDto> getAllProducts() {
         return productService.getAllProducts();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("get/{id}")
     public ProductDto getProductById(@PathVariable int id) {
         return productService.getProductById(id);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("update/{id}")
     public Product updateProduct(@PathVariable int id, @RequestBody Product product) {
         product.setPid(id);
         return productService.updateProduct(product);

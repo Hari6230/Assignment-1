@@ -1,5 +1,6 @@
 package com.Assignment_1.InventoryManagementSystem.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Pattern;
@@ -10,6 +11,7 @@ import lombok.*;
 @AllArgsConstructor
 @Entity
 @Table(name = "product_details")
+@JsonIgnoreProperties
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,4 +24,9 @@ public class Product {
     @JsonProperty("pDesc")
     @Column(name = "Product_Description")
     private String pDesc;
+
+    public Product(String pName, String pDesc){
+        this.pName=pName;
+        this.pDesc=pDesc;
+    }
 }

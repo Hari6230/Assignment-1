@@ -9,5 +9,7 @@ import lombok.*;
 public class ProductDto {
     private int pId;
     private String pName;
-    //private String pDesc;
+    private String pDesc;
+
+
 }
