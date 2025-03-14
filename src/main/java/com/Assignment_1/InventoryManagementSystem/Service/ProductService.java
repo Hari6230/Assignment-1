@@ -24,8 +24,7 @@ public class ProductService {
         productRepository.save(p);
         //TODO:Returning ProductDto as  response
         return new ProductDto(p.getPid(),p.getPName(),p.getPDesc());
-        //TODO:change
-    }
+}
 
     public List<ProductDto> getAllProducts() {
         return productRepository.findAll().stream().map(x->new ProductDto(x.getPid(),x.getPName(),x.getPDesc())).collect(Collectors.toList());
