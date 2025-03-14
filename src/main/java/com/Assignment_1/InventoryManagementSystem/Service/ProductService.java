@@ -35,8 +35,16 @@ public class ProductService {
        return new ProductDto(p.getPid(),p.getPName(),p.getPDesc());
     }
 
-    public Product updateProduct(Product product) {
-        return productRepository.save(product);
+    public ProductDto updateProduct(int pId,ProductDto productDto) {
+        //TODO:Cheking the product with id (pId) before updating
+        Product product = productRepository.findById(pId).orElseThrow(() -> new NoSuchElementException("There is no product with ID " + pId));
+        //TODO:Setting new values to existing product (if it exist)
+        product.setPName(productDto.getPName());
+        product.setPDesc(productDto.getPDesc());
+
+        Product save = productRepository.save(product);
+        return new ProductDto(save.getPid(),save.getPName(),save.getPDesc());
+
     }
 
     public void deleteProduct(int id) {

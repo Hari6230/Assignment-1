@@ -31,12 +31,12 @@ public class ProductController {
     }
 
     @PutMapping("update/{id}")
-    public Product updateProduct(@PathVariable int id, @RequestBody Product product) {
-        product.setPid(id);
-        return productService.updateProduct(product);
+    public ProductDto updateProduct(@PathVariable int id, @RequestBody ProductDto productDto) {
+
+        return productService.updateProduct(id,productDto);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("delete/{id}")
     public ResponseEntity<String> deleteProduct(@PathVariable int id) {
         productService.deleteProduct(id);
         return  ResponseEntity.ok("The id "+id+" is deleted");
