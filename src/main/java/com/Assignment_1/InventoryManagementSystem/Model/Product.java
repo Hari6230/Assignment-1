@@ -10,7 +10,6 @@ import lombok.*;
 @NoArgsConstructor
 @Entity
 @Table(name = "product_details")
-@JsonIgnoreProperties
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

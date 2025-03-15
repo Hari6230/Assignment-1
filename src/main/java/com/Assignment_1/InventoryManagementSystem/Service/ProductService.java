@@ -31,7 +31,7 @@ public class ProductService {
     }
 
     public  ProductDto getProductById(int id) {
-       Product p = productRepository.findById(id).orElseThrow(()->new NoSuchElementException("There is no product like that"));
+       Product p = productRepository.findById(id).orElseThrow(()->new NoSuchElementException("There is no product with ID "+id));
        return new ProductDto(p.getPid(),p.getPName(),p.getPDesc());
     }
 

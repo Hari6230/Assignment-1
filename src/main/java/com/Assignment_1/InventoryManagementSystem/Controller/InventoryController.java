@@ -38,7 +38,7 @@ public class InventoryController {
         return inventoryService.updateInventory(id,inventoryDto);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("delete/{id}")
     public ResponseEntity<String> deleteInventory(@PathVariable Long id) {
         inventoryService.deleteInventory(id);
         return ResponseEntity.ok("The Inventory is deleted");

@@ -26,8 +26,5 @@ public class Store {
     @JsonProperty("sAddress")
     private String sAddress;
 
-//    public Store(String sName, String sAddress) {
-//        this.sName = sName;
-//        this.sAddress = sAddress;
-//    }
+
 }
