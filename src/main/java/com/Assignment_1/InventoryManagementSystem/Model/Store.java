@@ -12,9 +12,9 @@ import lombok.*;
 @Entity
 @Table(name = "store_details")
 public class Store {
-
+    @Id
     @Pattern(regexp = "^[a-zA-Z0-9 ]+$",message = "Store ID should be  Alphanumeric")
-    @Column(name = "store_id")
+    @Column(name = "store_id",nullable = false,unique = true)
     @JsonProperty("sId")
     private String  sId;
 
@@ -24,6 +24,7 @@ public class Store {
 
     @Column(name = "store_address", nullable = false)
     @JsonProperty("sAddress")
+    @Pattern(regexp = ".*\\d{6}$",message = "Address should contains PIN CODE")
     private String sAddress;
 
 

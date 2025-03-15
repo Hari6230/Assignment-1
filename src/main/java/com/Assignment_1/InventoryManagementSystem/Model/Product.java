@@ -14,12 +14,10 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="Product_Id")
-    @JsonProperty("pid")
     private int pid;
     @Column(name = "Product_Name",nullable = false,unique = true,length = 255)
-    @JsonProperty("pName")
+    @Pattern(regexp = "^[a-zA-Z0-9 ]+$",message = "The Product name should be Alphanumeric")
     private String pName;
-    @JsonProperty("pDesc")
     @Column(name = "Product_Description")
     private String pDesc;
 

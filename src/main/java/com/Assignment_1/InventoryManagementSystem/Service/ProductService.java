@@ -48,6 +48,11 @@ public class ProductService {
     }
 
     public void deleteProduct(int id) {
-        productRepository.deleteById(id);
+        if(productRepository.existsById(id)){
+            productRepository.deleteById(id);
+
+        }else{
+            throw new NoSuchElementException("There is no Product with ID "+id);
+        }
     }
 }
