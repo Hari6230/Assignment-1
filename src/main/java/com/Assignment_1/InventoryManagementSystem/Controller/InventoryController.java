@@ -1,5 +1,6 @@
 package com.Assignment_1.InventoryManagementSystem.Controller;
 
+import com.Assignment_1.InventoryManagementSystem.InventoryDto.InventoryDto;
 import com.Assignment_1.InventoryManagementSystem.Model.Inventory;
 import com.Assignment_1.InventoryManagementSystem.Service.InventoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,31 +18,30 @@ public class InventoryController {
     @Autowired
     private InventoryService inventoryService;
 
-    @PostMapping
-    public Inventory createInventory(@RequestBody Inventory inventory) {
-        return inventoryService.createInventory(inventory);
+    @PostMapping("/create")
+    public InventoryDto createInventory(@RequestBody InventoryDto inventoryDto) {
+        return inventoryService.createInventory(inventoryDto);
     }
 
-    @GetMapping
-    public List<Inventory> getAllInventories() {
+    @GetMapping("/getall")
+    public List<InventoryDto> getAllInventories() {
         return inventoryService.getAllInventories();
     }
 
-    @GetMapping("/{id}")
-    public Inventory getInventoryById(@PathVariable Long id) {
-        return inventoryService.getInventoryById(id).orElseThrow(()->new NoSuchElementException("There is no such element "));
+    @GetMapping("get/{id}")
+    public InventoryDto getInventoryById(@PathVariable Long id) {
+        return inventoryService.getInventoryById(id);
     }
 
-    @PutMapping("/{id}")
-    public Inventory updateInventory(@PathVariable Long id, @RequestBody Inventory inventory) {
-        inventory.setId(id);
-        return inventoryService.updateInventory(inventory);
+    @PutMapping("update/{id}")
+    public InventoryDto updateInventory(@PathVariable Long id, @RequestBody InventoryDto inventoryDto) {
+        return inventoryService.updateInventory(id,inventoryDto);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteInventory(@PathVariable Long id) {
         inventoryService.deleteInventory(id);
-        return ResponseEntity.ok("the Inventory is deleted");
+        return ResponseEntity.ok("The Inventory is deleted");
     }
 
 }

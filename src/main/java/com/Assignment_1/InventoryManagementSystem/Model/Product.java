@@ -8,7 +8,6 @@ import lombok.*;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "product_details")
 @JsonIgnoreProperties

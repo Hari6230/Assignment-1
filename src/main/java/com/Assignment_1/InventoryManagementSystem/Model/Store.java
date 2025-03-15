@@ -2,6 +2,7 @@ package com.Assignment_1.InventoryManagementSystem.Model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Pattern;
 import lombok.*;
 
 @Getter
@@ -12,11 +13,10 @@ import lombok.*;
 @Table(name = "store_details")
 public class Store {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Pattern(regexp = "^[a-zA-Z0-9 ]+$",message = "Store ID should be  Alphanumeric")
     @Column(name = "store_id")
     @JsonProperty("sId")
-    private int sId;
+    private String  sId;
 
     @Column(name = "store_name", nullable = false, unique = true, length = 255)
     @JsonProperty("sName")
@@ -26,6 +26,8 @@ public class Store {
     @JsonProperty("sAddress")
     private String sAddress;
 
-
-
+//    public Store(String sName, String sAddress) {
+//        this.sName = sName;
+//        this.sAddress = sAddress;
+//    }
 }

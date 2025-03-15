@@ -16,22 +16,20 @@ public class StoreController {
 
     @Autowired
     private StoreService storeService;
-    @Autowired
-    private InventoryRepository inventoryRepository;
 
-    @PostMapping
-    public Store createStore(@RequestBody Store store) {
-        return storeService.createStore(store);
+    @PostMapping("/create")
+    public StoreDto createStore(@RequestBody StoreDto storeDto) {
+        return storeService.createStore(storeDto);
     }
 
-    @GetMapping
+    @GetMapping("/getall")
     public List<StoreDto> getAllStores() {
         return storeService.getAllStores();
     }
 
 
-    @DeleteMapping("/{id}")
-    public void deleteStore(@PathVariable int id) {
+    @DeleteMapping("get/{id}")
+    public void deleteStore(@PathVariable String id) {
         storeService.deleteStore(id);
     }
 }

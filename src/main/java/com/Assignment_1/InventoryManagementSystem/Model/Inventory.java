@@ -7,7 +7,6 @@ import lombok.*;
 @Entity
 @Table(name = "inventory")
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class Inventory {
      @Id
@@ -27,4 +26,11 @@ public class Inventory {
     @Column(nullable = false)
     @JsonProperty("availableInventory")
     private int availableInventory;
+
+
+    public Inventory(Store store, Product product, int availableInventory) {
+        this.store = store;
+        this.product = product;
+        this.availableInventory = availableInventory;
+    }
 }
