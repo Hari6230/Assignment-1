@@ -1,27 +1,36 @@
 package com.Assignment_1.InventoryManagementSystem.Service;
 
 import com.Assignment_1.InventoryManagementSystem.InventoryDto.InventoryDto;
-import com.Assignment_1.InventoryManagementSystem.Model.Inventory;
+import com.Assignment_1.InventoryManagementSystem.entity.Inventory;
 import com.Assignment_1.InventoryManagementSystem.Repository.InventoryRepository;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class InventoryService {
 
     @Autowired
     private InventoryRepository inventoryRepository;
 
 
-    public InventoryDto createInventory(InventoryDto inventoryDto) {
+    public InventoryDto createInventory(InventoryDto inventoryDto) throws BadRequestException {
+        Inventory save;
         Inventory inventory = new Inventory(inventoryDto.getStore(), inventoryDto.getProduct(), inventoryDto.getAvailability());
-        Inventory save = inventoryRepository.save(inventory);
+        if(ObjectUtils.isEmpty(inventory)){
+            save = inventoryRepository.save(inventory);
+        }
+        else{
+            log.error("Duplicate order, order already exist with id:{}",inventoryDto.getId());
+            throw  new BadRequestException("Duplicate order, order already exist with id"+inventoryDto.getId());
+        }
         return new InventoryDto(save.getId(), save.getStore(), save.getProduct(), save.getAvailableInventory());
 
     }

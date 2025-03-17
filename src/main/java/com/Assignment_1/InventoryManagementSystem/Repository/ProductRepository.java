@@ -1,6 +1,6 @@
 package com.Assignment_1.InventoryManagementSystem.Repository;
 
-import com.Assignment_1.InventoryManagementSystem.Model.Product;
+import com.Assignment_1.InventoryManagementSystem.entity.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

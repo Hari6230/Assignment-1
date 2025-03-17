@@ -1,4 +1,4 @@
-package com.Assignment_1.InventoryManagementSystem.Model;
+package com.Assignment_1.InventoryManagementSystem.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
@@ -14,7 +14,7 @@ import lombok.*;
 public class Store {
     @Id
     @Pattern(regexp = "^[a-zA-Z0-9 ]+$",message = "Store ID should be  Alphanumeric")
-    @Column(name = "store_id",nullable = false,unique = true)
+    @Column(name = "sId",nullable = false,unique = true)
     @JsonProperty("sId")
     private String  sId;
 

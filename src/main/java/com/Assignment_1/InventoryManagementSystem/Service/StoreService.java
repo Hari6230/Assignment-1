@@ -1,7 +1,7 @@
 package com.Assignment_1.InventoryManagementSystem.Service;
 
 import com.Assignment_1.InventoryManagementSystem.InventoryDto.StoreDto;
-import com.Assignment_1.InventoryManagementSystem.Model.Store;
+import com.Assignment_1.InventoryManagementSystem.entity.Store;
 import com.Assignment_1.InventoryManagementSystem.Repository.StoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

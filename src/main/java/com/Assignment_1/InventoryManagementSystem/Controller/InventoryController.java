@@ -1,15 +1,12 @@
 package com.Assignment_1.InventoryManagementSystem.Controller;
 
 import com.Assignment_1.InventoryManagementSystem.InventoryDto.InventoryDto;
-import com.Assignment_1.InventoryManagementSystem.Model.Inventory;
 import com.Assignment_1.InventoryManagementSystem.Service.InventoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/inventories")

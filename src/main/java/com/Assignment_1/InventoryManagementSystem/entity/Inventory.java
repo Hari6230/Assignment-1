@@ -1,4 +1,4 @@
-package com.Assignment_1.InventoryManagementSystem.Model;
+package com.Assignment_1.InventoryManagementSystem.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
