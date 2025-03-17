@@ -2,6 +2,7 @@ package com.Assignment_1.InventoryManagementSystem.Controller;
 
 import com.Assignment_1.InventoryManagementSystem.InventoryDto.InventoryDto;
 import com.Assignment_1.InventoryManagementSystem.Service.InventoryService;
+import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,11 @@ public class InventoryController {
 
     @PostMapping("/create")
     public InventoryDto createInventory(@RequestBody InventoryDto inventoryDto) {
-        return inventoryService.createInventory(inventoryDto);
+        try {
+            return inventoryService.createInventory(inventoryDto);
+        } catch (BadRequestException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @GetMapping("/getall")
