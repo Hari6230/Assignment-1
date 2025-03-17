@@ -32,11 +32,11 @@ public class ProductService {
 
     public  ProductDto getProductById(int id) {
        Product p = productRepository.findById(id).orElseThrow(()->new NoSuchElementException("There is no product with ID "+id));
-       return new ProductDto(p.getPid(),p.getPName(),p.getPDesc());
+       return new ProductDto(p.getPName(),p.getPDesc());
     }
 
     public ProductDto updateProduct(int pId,ProductDto productDto) {
-        //TODO:Cheking the product with id (pId) before updating
+        //TODO:Checking the product with id (pId) before updating
         Product product = productRepository.findById(pId).orElseThrow(() -> new NoSuchElementException("There is no product with ID " + pId));
         //TODO:Setting new values to existing product (if it exist)
         product.setPName(productDto.getPName());
@@ -50,7 +50,6 @@ public class ProductService {
     public void deleteProduct(int id) {
         if(productRepository.existsById(id)){
             productRepository.deleteById(id);
-
         }else{
             throw new NoSuchElementException("There is no Product with ID "+id);
         }

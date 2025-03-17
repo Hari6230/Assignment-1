@@ -7,7 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.NoSuchElementException;
+
 
 @Service
 public class StoreService {
@@ -26,8 +27,8 @@ public class StoreService {
         return storeRepository.findAll().stream().map(x->new StoreDto(x.getSId(),x.getSName(),x.getSAddress())).toList();
     }
 
-    public Optional<Store> getStoreById(String id) {
-        return storeRepository.findById(id);
+    public Store getStoreById(String id) {
+        return storeRepository.findById(id).orElseThrow(()-> new NoSuchElementException("There is no store with id " + id +" is present "));
     }
 
     public Store updateStore(Store store) {

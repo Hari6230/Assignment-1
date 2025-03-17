@@ -38,7 +38,7 @@ public class InventoryService {
     public InventoryDto updateInventory(Long id, InventoryDto inventoryDto) {
 
         Inventory existinventory = inventoryRepository.findById(id).orElseThrow(() -> new NoSuchElementException("There is no Inventory with ID " + id));
-//        existinventory.setId(inventoryDto.getId());
+//        exist inventory.setId(inventoryDto.getId());
         existinventory.setStore(inventoryDto.getStore());
         existinventory.setProduct(inventoryDto.getProduct());
         existinventory.setAvailableInventory(inventoryDto.getAvailability());
