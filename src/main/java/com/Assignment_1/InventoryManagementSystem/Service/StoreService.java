@@ -4,8 +4,10 @@ import com.Assignment_1.InventoryManagementSystem.Exceptions.AllExceptionHandler
 import com.Assignment_1.InventoryManagementSystem.InventoryDto.StoreDto;
 import com.Assignment_1.InventoryManagementSystem.entity.Store;
 import com.Assignment_1.InventoryManagementSystem.Repository.StoreRepository;
+import com.Assignment_1.InventoryManagementSystem.utils.ValidationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -18,6 +20,11 @@ public class StoreService {
 
     public String createStore(StoreDto storeDto) {
         try {
+            ValidationUtils.validateStore(storeDto);
+            Store s = storeRepository.findByStoreId(storeDto.getSId());
+            if(!ObjectUtils.isEmpty(s)){
+                return "The Store is already Present ";
+            }
             Store store = new Store(storeDto.getId(), storeDto.getSId(), storeDto.getSName(), storeDto.getSAddress());
             Store save = storeRepository.save(store);
             return "The store is created Successfully";
