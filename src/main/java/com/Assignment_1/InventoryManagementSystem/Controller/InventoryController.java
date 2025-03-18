@@ -16,7 +16,7 @@ public class InventoryController {
     @Autowired
     private InventoryService inventoryService;
 
-    @PostMapping("/create")
+    @PostMapping("/createInventory")
     public InventoryDto createInventory(@RequestBody InventoryDto inventoryDto) {
         try {
             return inventoryService.createInventory(inventoryDto);
@@ -25,22 +25,22 @@ public class InventoryController {
         }
     }
 
-    @GetMapping("/getall")
+    @GetMapping("/getAllInventories")
     public List<InventoryDto> getAllInventories() {
         return inventoryService.getAllInventories();
     }
 
-    @GetMapping("get/{id}")
+    @GetMapping("getInventoryById/{id}")
     public InventoryDto getInventoryById(@PathVariable Long id) {
         return inventoryService.getInventoryById(id);
     }
 
-    @PutMapping("update/{id}")
+    @PutMapping("updateInventoryById/{id}")
     public InventoryDto updateInventory(@PathVariable Long id, @RequestBody InventoryDto inventoryDto) {
         return inventoryService.updateInventory(id,inventoryDto);
     }
 
-    @DeleteMapping("delete/{id}")
+    @DeleteMapping("deleteInventoryById/{id}")
     public ResponseEntity<String> deleteInventory(@PathVariable Long id) {
         inventoryService.deleteInventory(id);
         return ResponseEntity.ok("The Inventory is deleted");

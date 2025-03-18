@@ -13,8 +13,16 @@ import lombok.*;
 @Table(name = "store_details")
 public class Store {
     @Id
+    @JsonProperty("id")
+
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    private int id;
+
     @Pattern(regexp = "^[a-zA-Z0-9 ]+$",message = "Store ID should be  Alphanumeric")
+
     @Column(name = "sId",nullable = false,unique = true)
+
     @JsonProperty("sId")
     private String  sId;
 
