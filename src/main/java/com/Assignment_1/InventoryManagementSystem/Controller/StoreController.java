@@ -15,7 +15,7 @@ public class StoreController {
     private StoreService storeService;
 
     @PostMapping("/create")
-    public StoreDto createStore(@RequestBody StoreDto storeDto) {
+    public String createStore(@RequestBody StoreDto storeDto) {
         return storeService.createStore(storeDto);
     }
 
