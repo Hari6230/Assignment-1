@@ -25,12 +25,12 @@ public class ProductController {
     }
 
     @GetMapping("getByProductId/{id}")
-    public ProductDto getProductById(@PathVariable int id) {
+    public ProductDto getProductById(@PathVariable String id) {
         return productService.getProductById(id);
     }
 
     @PutMapping("updateProductById/{id}")
-    public ProductDto updateProduct(@PathVariable int id, @RequestBody ProductDto productDto) {
+    public ProductDto updateProduct(@PathVariable String id, @RequestBody ProductDto productDto) {
 
         return productService.updateProduct(id,productDto);
     }

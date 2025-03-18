@@ -32,8 +32,8 @@ public class ProductService {
                    return ResponseEntity.status(HttpStatus.OK).body("The Product data is Stored in Database");
                }
                else{
-                   log.error("The product is already present");
-                   throw new RuntimeException("The ");
+                   log.error("Duplicate Entry :The product is already present");
+                   throw new RuntimeException("Duplicate Entry");
                }
            }catch (BadRequestException e){
                log.error("Error occurred in ProductService :The Product is NULL");
@@ -51,20 +51,24 @@ public class ProductService {
         if(!ObjectUtils.isEmpty(product)){
             return new ProductDto(product.getPid(),product.getPName(),product.getPDesc());
         }else{
+            log.error("Product is not present in database");
             throw new NoSuchElementException("The Product is not present with ID "+id);
         }
 
     }
 
-    public ProductDto updateProduct(int pId,ProductDto productDto) {
-        //TODO:Checking the product with id (pId) before updating
-        Product product = productRepository.findById(pId).orElseThrow(() -> new NoSuchElementException("There is no product with ID " + pId));
-        //TODO:Setting new values to existing product (if it exist)
-        product.setPName(productDto.getPName());
-        product.setPDesc(productDto.getPDesc());
-
-        Product save = productRepository.save(product);
-        return new ProductDto(save.getPid(),save.getPName(),save.getPDesc());
+    public ResponseEntity<String> updateProduct(String pId,ProductDto productDto) {
+        Product product = productRepository.findProductById(pId);
+        if(!ObjectUtils.isEmpty(product)){
+            product.setPName(productDto.getPName());
+            product.setPDesc(productDto.getPDesc());
+            Product save = productRepository.save(product);
+            return ResponseEntity.status(HttpStatus.OK).body("The product table is UPDATED");
+        }
+        else{
+            log.error("Product is not present in DB");
+            throw new NoSuchElementException("There is no product with id"+pId);
+        }
 
     }
 
