@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class StoreDto {
+    @JsonProperty("id")
+    private int id;
     @JsonProperty("sId")
     private String sId;
     @JsonProperty("sName")
