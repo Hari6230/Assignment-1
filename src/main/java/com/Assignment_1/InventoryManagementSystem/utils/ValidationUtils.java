@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.coyote.BadRequestException;
 import org.springframework.util.StringUtils;
 
-
 @Slf4j
 public class ValidationUtils {
 

@@ -28,16 +28,17 @@ public class ProductService {
                ValidationUtils.validateProductDto(productDto);
                Product productDetails = productRepository.findProductById(productDto.getPId());
                if(ObjectUtils.isEmpty(productDetails)){
-                   productRepository.save(productDetails);
+                   Product save = productRepository.save(productDetails);
+                   return ResponseEntity.status(HttpStatus.OK).body("The Product data is Stored in Database");
                }
                else{
-                   log.error("");
+                   log.error("The product is already present");
+                   throw new RuntimeException("The ");
                }
            }catch (BadRequestException e){
                log.error("Error occurred in ProductService :The Product is NULL");
                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("The product Should not be NULL");
            }
-
 
     }
 
@@ -45,9 +46,14 @@ public class ProductService {
         return productRepository.findAll().stream().map(x->new ProductDto(x.getPid(),x.getPName(),x.getPDesc())).collect(Collectors.toList());
     }
 
-    public  ProductDto getProductById(int id) {
-       Product p = productRepository.findById(id).orElseThrow(()->new NoSuchElementException("There is no product with ID "+id));
-       return new ProductDto(p.getPid(),p.getPName(),p.getPDesc());
+    public  ProductDto getProductById(String id) {
+        Product product = productRepository.findProductById(id);
+        if(!ObjectUtils.isEmpty(product)){
+            return new ProductDto(product.getPid(),product.getPName(),product.getPDesc());
+        }else{
+            throw new NoSuchElementException("The Product is not present with ID "+id);
+        }
+
     }
 
     public ProductDto updateProduct(int pId,ProductDto productDto) {
