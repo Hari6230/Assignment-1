@@ -32,7 +32,7 @@ public class ProductService {
                    return ResponseEntity.status(HttpStatus.OK).body("The Product data is Stored in Database");
                }
                else{
-                   log.error("Duplicate Entry :The product is already present");
+                   log.error("Duplicate Entry ProductId :"+productDetails.getPid());
                    throw new RuntimeException("Duplicate Entry");
                }
            }catch (BadRequestException e){
@@ -43,7 +43,7 @@ public class ProductService {
     }
 
     public List<ProductDto> getAllProducts() {
-        return productRepository.findAll().stream().map(x->new ProductDto(x.getPid(),x.getPName(),x.getPDesc())).collect(Collectors.toList());
+        return productRepository.findAll().stream().map(p->new ProductDto(p.getPid(),p.getPName(),p.getPDesc())).collect(Collectors.toList());
     }
 
     public  ProductDto getProductById(String id) {
@@ -51,7 +51,7 @@ public class ProductService {
         if(!ObjectUtils.isEmpty(product)){
             return new ProductDto(product.getPid(),product.getPName(),product.getPDesc());
         }else{
-            log.error("Product is not present in database");
+            log.error("Error occurred While fetching Product by ID");
             throw new NoSuchElementException("The Product is not present with ID "+id);
         }
 
@@ -72,10 +72,13 @@ public class ProductService {
 
     }
 
-    public void deleteProduct(int id) {
-        if(productRepository.existsById(id)){
-            productRepository.deleteById(id);
-        }else{
+    public ResponseEntity<String> deleteProduct(String id) {
+        Product product = productRepository.findProductById(id);
+        if(!ObjectUtils.isEmpty(product)) {
+            productRepository.deleteProductById(id);
+            return ResponseEntity.status(HttpStatus.OK).body("The Product table is Updated");
+        }
+        else{
             throw new NoSuchElementException("There is no Product with ID "+id);
         }
     }
