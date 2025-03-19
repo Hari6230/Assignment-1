@@ -18,12 +18,12 @@ public class Inventory {
      private String inventoryId;
 
     @ManyToOne
-    @JoinColumn(name = "store_id", referencedColumnName = "store_id",nullable = false,unique = true)
+    @JoinColumn(name = "store_id", referencedColumnName = "store_id",nullable = false)
     @JsonProperty("store")
     private Store store;
 
     @ManyToOne
-    @JoinColumn(name = "product_id", referencedColumnName = "productId",nullable = false,unique = true)
+    @JoinColumn(name = "product_id", referencedColumnName = "productId",nullable = false)
     @JsonProperty("product")
     private Product product;
 

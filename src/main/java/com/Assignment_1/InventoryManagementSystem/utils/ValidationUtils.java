@@ -14,8 +14,8 @@ public class ValidationUtils {
     public static void validateProductDto(ProductDto productDto) throws BadRequestException {
         if (StringUtils.isEmpty(productDto.getPName()) || StringUtils.isEmpty(productDto.getPId())) {
             log.error("Product name :{} or product id  :{} cannot be empty", productDto.getPName(), productDto.getPName());
-            throw new BadRequestException("Product name" + productDto.getPName() + " or product id " +
-                    productDto.getPId() + "cannot be empty");
+            throw new BadRequestException("Product name " + productDto.getPName() + " or product id " +
+                    productDto.getPId() + " cannot be empty");
         }
     }
 
