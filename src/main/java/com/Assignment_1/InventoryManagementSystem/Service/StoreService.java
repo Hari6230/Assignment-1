@@ -43,26 +43,37 @@ public class StoreService {
         }
     }
 
-    public Store getStoreById(String id) {
+    public StoreDto getStoreById(String id) {
         try {
-            return storeRepository.findById(id)
-                    .orElseThrow(() -> new NoSuchElementException("There is no store with id " + id + " present"));
+            Store s = storeRepository.findByStoreId(id);
+            if(ObjectUtils.isEmpty(s)){
+                throw new NoSuchElementException(" there is no Such Store with id "+id);
+            }
+            return new StoreDto(s.getId(),s.getSId(),s.getSName(),s.getSAddress());
+
         } catch (Exception e) {
             throw new RuntimeException("Error occurred while fetching store by id: " + e.getMessage());
         }
     }
 
-    public Store updateStore(Store store) {
+    public String updateStore(Store store) {
         try {
-            return storeRepository.save(store);
+            if(ObjectUtils.isEmpty(store)){
+                throw new NoSuchElementException("there is no Store With id "+store.getSId());
+            }
+            storeRepository.save(store);
+            return " the Store is Updated Successfully";
+
         } catch (Exception e) {
             throw new AllExceptionHandler("There is an error while Updating the store");
         }
     }
 
-    public void deleteStore(String id) {
+    public String deleteStore(String id) {
         try {
             storeRepository.deleteById(id);
+            return "the Store with the id "+ id + " is Deleted";
+
         } catch (Exception e) {
             throw new RuntimeException("Error occurred while deleting store: " + e.getMessage());
         }
