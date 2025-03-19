@@ -46,12 +46,10 @@ public class ProductService {
     }
 
     public ResponseEntity<Page<Product>>getAllProducts(int page,int size) {
-
         PageRequest pageRequest = PageRequest.of(page, size);
         Page<Product> all = productRepository.findAll(pageRequest);
         return ResponseEntity.status(HttpStatus.OK).body(all);
 
-//        return productRepository.findAll().stream().map(p->new ProductDto(p.getPid(),p.getPName(),p.getPDesc())).collect(Collectors.toList());
     }
 
     public  ResponseEntity<ProductDto> getProductById(String id) {

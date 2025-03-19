@@ -14,12 +14,8 @@ import lombok.*;
 public class Store {
     @Id
     @JsonProperty("id")
-
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     private int id;
-
-
     @Column(name = "store_id",nullable = false,unique = true)
 
     @JsonProperty("sId")

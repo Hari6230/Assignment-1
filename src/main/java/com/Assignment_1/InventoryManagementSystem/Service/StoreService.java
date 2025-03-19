@@ -36,7 +36,7 @@ public class StoreService {
     public List<StoreDto> getAllStores() {
         try {
             return storeRepository.findAll().stream()
-                    .map(x -> new StoreDto(x.getId(), x.getSId(), x.getSName(), x.getSAddress()))
+                    .map(x -> StoreDto.builder().id(x.getId()).sId(x.getSId()).sAddress(x.getSAddress()).sName(x.getSName()).build())
                     .toList();
         } catch (Exception e) {
             throw new RuntimeException("Error occurred while fetching all stores: " + e.getMessage());
@@ -49,7 +49,7 @@ public class StoreService {
             if(ObjectUtils.isEmpty(s)){
                 throw new NoSuchElementException(" there is no Such Store with id "+id);
             }
-            return new StoreDto(s.getId(),s.getSId(),s.getSName(),s.getSAddress());
+            return StoreDto.builder().id(s.getId()).sId(s.getSId()).sName(s.getSName()).sAddress(s.getSAddress()).build();
 
         } catch (Exception e) {
             throw new RuntimeException("Error occurred while fetching store by id: " + e.getMessage());
