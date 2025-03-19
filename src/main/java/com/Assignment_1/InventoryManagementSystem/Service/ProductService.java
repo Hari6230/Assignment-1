@@ -36,11 +36,11 @@ public class ProductService {
                    return ResponseEntity.status(HttpStatus.OK).body("The Product created successfully");
                }
                else{
-                   log.error("Duplicate Entry with {} ProductId :",productDetails.getProductId());
-                   throw new RuntimeException("Duplicate Entry");
+                   log.error("Duplicate Entry with ProductId {}:",productDetails.getProductId());
+                   return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Duplicate Entry with ProductId "+productDetails.getProductId());
                }
-           }catch (BadRequestException e){
-               log.error("Error occurred in ProductService {}:",e.getMessage());
+           }catch (Exception e){
+               log.error("Error occurred in ProductService =>{}",e.getMessage());
                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
            }
 
