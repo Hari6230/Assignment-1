@@ -6,20 +6,24 @@ import lombok.*;
 
 @Entity
 @Table(name = "inventory")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 public class Inventory {
      @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+     @Column(name = "inventoryId",nullable = false,unique = true)
+     private String inventoryId;
+
     @ManyToOne
-    @JoinColumn(name = "store_id", referencedColumnName = "store_id",nullable = false,unique = true)
+    @JoinColumn(name = "store_id", referencedColumnName = "sId",nullable = false,unique = true)
     @JsonProperty("store")
     private Store store;
 
     @ManyToOne
-    @JoinColumn(name = "product_id", referencedColumnName = "product_id",nullable = false,unique = true)
+    @JoinColumn(name = "product_id", referencedColumnName = "productId",nullable = false,unique = true)
     @JsonProperty("product")
     private Product product;
 
@@ -27,8 +31,8 @@ public class Inventory {
     @JsonProperty("availableInventory")
     private int availableInventory;
 
-
-    public Inventory(Store store, Product product, int availableInventory) {
+    public Inventory(String inventoryId, Store store, Product product, int availableInventory) {
+        this.inventoryId = inventoryId;
         this.store = store;
         this.product = product;
         this.availableInventory = availableInventory;

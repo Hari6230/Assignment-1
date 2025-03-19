@@ -2,7 +2,6 @@ package com.Assignment_1.InventoryManagementSystem.Controller;
 
 import com.Assignment_1.InventoryManagementSystem.InventoryDto.InventoryDto;
 import com.Assignment_1.InventoryManagementSystem.Service.InventoryService;
-import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,12 +16,8 @@ public class InventoryController {
     private InventoryService inventoryService;
 
     @PostMapping("/createInventory")
-    public InventoryDto createInventory(@RequestBody InventoryDto inventoryDto) {
-        try {
-            return inventoryService.createInventory(inventoryDto);
-        } catch (BadRequestException e) {
-            throw new RuntimeException(e);
-        }
+    public ResponseEntity<String> createInventory(@RequestBody InventoryDto inventoryDto) {
+        return inventoryService.createInventory(inventoryDto);
     }
 
     @GetMapping("/getAllInventories")
@@ -31,17 +26,17 @@ public class InventoryController {
     }
 
     @GetMapping("getInventoryById/{id}")
-    public InventoryDto getInventoryById(@PathVariable Long id) {
+    public ResponseEntity<InventoryDto> getInventoryById(@PathVariable String id) {
         return inventoryService.getInventoryById(id);
     }
 
     @PutMapping("updateInventoryById/{id}")
-    public InventoryDto updateInventory(@PathVariable Long id, @RequestBody InventoryDto inventoryDto) {
+    public ResponseEntity<String> updateInventory(@PathVariable String id, @RequestBody InventoryDto inventoryDto) {
         return inventoryService.updateInventory(id,inventoryDto);
     }
 
     @DeleteMapping("deleteInventoryById/{id}")
-    public ResponseEntity<String> deleteInventory(@PathVariable Long id) {
+    public ResponseEntity<String> deleteInventory(@PathVariable String id) {
         inventoryService.deleteInventory(id);
         return ResponseEntity.ok("The Inventory is deleted");
     }

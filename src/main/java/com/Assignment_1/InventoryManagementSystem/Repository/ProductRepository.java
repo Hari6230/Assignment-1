@@ -7,9 +7,9 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Integer> {
-    @Query("Select p from Product p where p.pID=:id")
-    Product findProductById(String id);
+    @Query("Select p from Product p where p.productId=:id")
+    Product findByProductId(String id);
 
-    @Query("delete p from Product p where p.pId:id")
-    void deleteProductById(String id);
+    @Query("delete  from Product p where p.productId=:id")
+    void deleteByProductId(String id);
 }

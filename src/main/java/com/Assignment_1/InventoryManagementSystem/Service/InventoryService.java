@@ -3,9 +3,12 @@ package com.Assignment_1.InventoryManagementSystem.Service;
 import com.Assignment_1.InventoryManagementSystem.InventoryDto.InventoryDto;
 import com.Assignment_1.InventoryManagementSystem.entity.Inventory;
 import com.Assignment_1.InventoryManagementSystem.Repository.InventoryRepository;
+import com.Assignment_1.InventoryManagementSystem.utils.ValidationUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
@@ -21,43 +24,59 @@ public class InventoryService {
     private InventoryRepository inventoryRepository;
 
 
-    public InventoryDto createInventory(InventoryDto inventoryDto) throws BadRequestException {
-        Inventory save;
-        Inventory inventory = new Inventory(inventoryDto.getStore(), inventoryDto.getProduct(), inventoryDto.getAvailability());
-        if(ObjectUtils.isEmpty(inventory)){
-            save = inventoryRepository.save(inventory);
+    public ResponseEntity<String> createInventory(InventoryDto inventoryDto) {
+        try {
+            ValidationUtils.validateInventoryDto(inventoryDto);
+            Inventory inventory = new Inventory(inventoryDto.getIId(),inventoryDto.getStore(), inventoryDto.getProduct(), inventoryDto.getAvailability());
+            if (ObjectUtils.isEmpty(inventory)) {
+                inventoryRepository.save(inventory);
+                return ResponseEntity.status(HttpStatus.OK).body("The Inventory is created");
+            } else {
+                log.error("Duplicate Inventory, Inventory already exist with id:{}", inventoryDto.getId());
+                throw new BadRequestException("Duplicate order, order already exist with id" + inventoryDto.getId());
+            }
+        } catch (BadRequestException e) {
+            log.error("Error occurred in InventoryService :{}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+
         }
-        else{
-            log.error("Duplicate order, order already exist with id:{}",inventoryDto.getId());
-            throw  new BadRequestException("Duplicate order, order already exist with id"+inventoryDto.getId());
-        }
-        return new InventoryDto(save.getId(), save.getStore(), save.getProduct(), save.getAvailableInventory());
+
 
     }
 
     public List<InventoryDto> getAllInventories() {
-        return inventoryRepository.findAll().stream().map(i -> new InventoryDto(i.getId(), i.getStore(), i.getProduct(), i.getAvailableInventory())).collect(Collectors.toList());
+        return inventoryRepository.findAll().stream().map(i -> new InventoryDto(i.getId(), i.getInventoryId(), i.getStore(), i.getProduct(), i.getAvailableInventory())).collect(Collectors.toList());
     }
 
-    public InventoryDto getInventoryById(Long id) {
-        Inventory inventory = inventoryRepository.findById(id).orElseThrow(() -> new NoSuchElementException("There is no Inventory with ID " + id));
-        return new InventoryDto(inventory.getId(), inventory.getStore(), inventory.getProduct(), inventory.getAvailableInventory());
+    public ResponseEntity<InventoryDto>getInventoryById(String id) {
+        Inventory inventory = inventoryRepository.findByInventoryId(id);
+        if(!ObjectUtils.isEmpty(inventory)){
+            InventoryDto inventoryDto = new InventoryDto(inventory.getId(), inventory.getInventoryId(), inventory.getStore(), inventory.getProduct(), inventory.getAvailableInventory());
+            return ResponseEntity.status(HttpStatus.OK).body(inventoryDto);
+        }else{
+            log.error("Inventory is not present with Inventory_id{}",id);
+            throw new NoSuchElementException("The Inventory is not present with id "+id);
+        }
+
     }
 
-    public InventoryDto updateInventory(Long id, InventoryDto inventoryDto) {
-
-        Inventory existinventory = inventoryRepository.findById(id).orElseThrow(() -> new NoSuchElementException("There is no Inventory with ID " + id));
-//        exist inventory.setId(inventoryDto.getId());
-        existinventory.setStore(inventoryDto.getStore());
-        existinventory.setProduct(inventoryDto.getProduct());
-        existinventory.setAvailableInventory(inventoryDto.getAvailability());
-        Inventory updatedInventory = inventoryRepository.save(existinventory);
-
-        return new InventoryDto(updatedInventory.getId(), updatedInventory.getStore(), updatedInventory.getProduct(), updatedInventory.getAvailableInventory());
+    public ResponseEntity<String> updateInventory(String id, InventoryDto inventoryDto) {
+        Inventory existinventory = inventoryRepository.findByInventoryId(id);
+       if(!ObjectUtils.isEmpty(existinventory)){
+           existinventory.setStore(inventoryDto.getStore());
+           existinventory.setProduct(inventoryDto.getProduct());
+           existinventory.setAvailableInventory(inventoryDto.getAvailability());
+           inventoryRepository.save(existinventory);
+           return ResponseEntity.status(HttpStatus.OK).body("The Inventory table is Updated");
+       }else{
+           log.error("The Inventory is not present with Inventory_id:{}",id);
+           throw new NoSuchElementException("There is no Inventory present with id "+id);
+       }
     }
 
-    public void deleteInventory(Long id) {
-        inventoryRepository.deleteById(id);
+    public void deleteInventory(String id) {
+
+        inventoryRepository.deleteByInventoryId(id);
     }
 
 }

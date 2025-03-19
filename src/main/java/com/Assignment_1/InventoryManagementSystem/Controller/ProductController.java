@@ -2,7 +2,9 @@ package com.Assignment_1.InventoryManagementSystem.Controller;
 
 import com.Assignment_1.InventoryManagementSystem.InventoryDto.ProductDto;
 import com.Assignment_1.InventoryManagementSystem.Service.ProductService;
+import com.Assignment_1.InventoryManagementSystem.entity.Product;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -18,13 +20,13 @@ public class ProductController {
         return productService.createProduct(productDto);
     }
 
-    @GetMapping("/getAllProducts")
-    public List<ProductDto> getAllProducts() {
-        return productService.getAllProducts();
+    @GetMapping("/getAllProducts/")
+    public ResponseEntity<Page<Product>>getAllProducts(@RequestParam int page,@RequestParam int size) {
+        return productService.getAllProducts(page,size);
     }
 
     @GetMapping("getByProductId/{id}")
-    public ProductDto getProductById(@PathVariable String id) {
+    public ResponseEntity<ProductDto> getProductById(@PathVariable String id) {
         return productService.getProductById(id);
     }
 

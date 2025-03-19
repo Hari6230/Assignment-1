@@ -12,17 +12,16 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(name = "product_id",nullable = false,unique = true)
-    private String pid;
-    @Column(name = "Product_Name",nullable = false,unique = true,length = 255)
-    @Pattern(regexp = "^[a-zA-Z0-9 ]+$",message = "The Product name should be Alphanumeric")
-    private String pName;
-    @Column(name = "Product_Description")
-    private String pDesc;
+    @Column(name = "productId",nullable = false,unique = true)
+    private String productId;
+    @Column(name = "ProductName",nullable = false,unique = true,length = 255)
+    private String productName;
+    @Column(name = "ProductDescription")
+    private String productDescription;
 
     public Product(String pid, String pName, String pDesc) {
-        this.pid = pid;
-        this.pName = pName;
-        this.pDesc = pDesc;
+        this.productId = pid;
+        this.productName = pName;
+        this.productDescription = pDesc;
     }
 }

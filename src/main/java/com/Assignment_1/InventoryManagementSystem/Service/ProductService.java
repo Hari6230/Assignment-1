@@ -7,6 +7,8 @@ import com.Assignment_1.InventoryManagementSystem.utils.ValidationUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -26,59 +28,67 @@ public class ProductService {
     public ResponseEntity<String> createProduct(ProductDto productDto) {
            try {
                ValidationUtils.validateProductDto(productDto);
-               Product productDetails = productRepository.findProductById(productDto.getPId());
+               Product productDetails = productRepository.findByProductId(productDto.getPId());
                if(ObjectUtils.isEmpty(productDetails)){
-                   Product save = productRepository.save(productDetails);
-                   return ResponseEntity.status(HttpStatus.OK).body("The Product data is Stored in Database");
+                   Product product=new Product(productDto.getPId(),productDto.getPName(),productDto.getPDesc());
+                   productRepository.save(product);
+                   return ResponseEntity.status(HttpStatus.OK).body("The Product created successfully");
                }
                else{
-                   log.error("Duplicate Entry ProductId :"+productDetails.getPid());
+                   log.error("Duplicate Entry with {} ProductId :",productDetails.getProductId());
                    throw new RuntimeException("Duplicate Entry");
                }
            }catch (BadRequestException e){
-               log.error("Error occurred in ProductService :The Product is NULL");
-               return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("The product Should not be NULL");
+               log.error("Error occurred in ProductService {}:",e.getMessage());
+               return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
            }
 
     }
 
-    public List<ProductDto> getAllProducts() {
-        return productRepository.findAll().stream().map(p->new ProductDto(p.getPid(),p.getPName(),p.getPDesc())).collect(Collectors.toList());
+    public ResponseEntity<Page<Product>>getAllProducts(int page,int size) {
+
+        PageRequest pageRequest = PageRequest.of(page, size);
+        Page<Product> all = productRepository.findAll(pageRequest);
+        return ResponseEntity.status(HttpStatus.OK).body(all);
+
+//        return productRepository.findAll().stream().map(p->new ProductDto(p.getPid(),p.getPName(),p.getPDesc())).collect(Collectors.toList());
     }
 
-    public  ProductDto getProductById(String id) {
-        Product product = productRepository.findProductById(id);
+    public  ResponseEntity<ProductDto> getProductById(String id) {
+        Product product = productRepository.findByProductId(id);
         if(!ObjectUtils.isEmpty(product)){
-            return new ProductDto(product.getPid(),product.getPName(),product.getPDesc());
+            ProductDto productDto = new ProductDto(product.getProductId(), product.getProductName(), product.getProductDescription());
+            return ResponseEntity.status(HttpStatus.OK).body(productDto);
         }else{
-            log.error("Error occurred While fetching Product by ID");
+            log.error("Product with ID {} is not present",id);
             throw new NoSuchElementException("The Product is not present with ID "+id);
         }
 
     }
 
     public ResponseEntity<String> updateProduct(String pId,ProductDto productDto) {
-        Product product = productRepository.findProductById(pId);
+        Product product = productRepository.findByProductId(pId);
         if(!ObjectUtils.isEmpty(product)){
-            product.setPName(productDto.getPName());
-            product.setPDesc(productDto.getPDesc());
+            product.setProductId(productDto.getPName());
+            product.setProductDescription(productDto.getPDesc());
             Product save = productRepository.save(product);
             return ResponseEntity.status(HttpStatus.OK).body("The product table is UPDATED");
         }
         else{
-            log.error("Product is not present in DB");
+            log.error("Product with ID {} is not present",pId);
             throw new NoSuchElementException("There is no product with id"+pId);
         }
 
     }
 
     public ResponseEntity<String> deleteProduct(String id) {
-        Product product = productRepository.findProductById(id);
+        Product product = productRepository.findByProductId(id);
         if(!ObjectUtils.isEmpty(product)) {
-            productRepository.deleteProductById(id);
+            productRepository.deleteByProductId(id);
             return ResponseEntity.status(HttpStatus.OK).body("The Product table is Updated");
         }
         else{
+            log.error("Product with ID {} is not present",id);
             throw new NoSuchElementException("There is no Product with ID "+id);
         }
     }
