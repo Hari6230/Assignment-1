@@ -20,7 +20,7 @@ public class ProductController {
         return productService.createProduct(productDto);
     }
 
-    @GetMapping("/getAllProducts/")
+    @GetMapping("/getAllProducts")
     public ResponseEntity<Page<Product>>getAllProducts(@RequestParam int page,@RequestParam int size) {
         return productService.getAllProducts(page,size);
     }

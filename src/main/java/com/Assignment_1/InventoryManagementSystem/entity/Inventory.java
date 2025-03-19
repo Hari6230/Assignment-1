@@ -18,7 +18,7 @@ public class Inventory {
      private String inventoryId;
 
     @ManyToOne
-    @JoinColumn(name = "store_id", referencedColumnName = "sId",nullable = false,unique = true)
+    @JoinColumn(name = "store_id", referencedColumnName = "store_id",nullable = false,unique = true)
     @JsonProperty("store")
     private Store store;
 

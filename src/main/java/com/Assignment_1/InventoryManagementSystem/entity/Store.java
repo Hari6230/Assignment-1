@@ -20,7 +20,7 @@ public class Store {
     private int id;
 
 
-    @Column(name = "sId",nullable = false,unique = true)
+    @Column(name = "store_id",nullable = false,unique = true)
 
     @JsonProperty("sId")
     private String  sId;

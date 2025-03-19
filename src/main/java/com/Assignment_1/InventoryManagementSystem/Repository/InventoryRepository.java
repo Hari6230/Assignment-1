@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 public interface InventoryRepository extends JpaRepository<Inventory, Long> {
 
     @Query("SELECT i FROM Inventory i WHERE i.inventoryId = :id")
-    Inventory findByInventoryId(@Param("id") String id);
+    Inventory findByInventoryId(String id);
 
 
     @Query("delete from Inventory i where i.inventoryId=:id")
