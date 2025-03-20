@@ -14,12 +14,12 @@ import java.util.Date;
 public class TimeStampEntity {
 
     @Temporal(TemporalType.TIMESTAMP)
-    @CreationTimestamp  // Automatically sets the creation time
+    @CreationTimestamp
     @Column(updatable = false)
     private Date createdAt;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @UpdateTimestamp  // Automatically updates when entity changes
+    @UpdateTimestamp
     private Date updatedAt;
 
 }

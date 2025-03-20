@@ -35,8 +35,8 @@ public class ValidationUtils {
         if (ObjectUtils.isEmpty(inventoryDto.getStore()) || ObjectUtils.isEmpty(inventoryDto.getProduct())) {
             throw new BadRequestException("Store or product cannot be empty");
         }
-        if(inventoryDto.getAvailability()<=0){
-            throw new BadRequestException("The available Inventory should be greater then or equal to 5");
+        if(inventoryDto.getAvailability()<0){
+            throw new BadRequestException("The available Inventory should be greater then or equal to 0");
         }
     }
 }

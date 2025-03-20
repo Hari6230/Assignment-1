@@ -37,7 +37,8 @@ public class ProductService {
                }
                else{
                    log.error("Duplicate Entry with ProductId {}:",productDetails.getProductId());
-                   return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Duplicate Entry with ProductId "+productDetails.getProductId());
+                   throw new BadRequestException("Duplicate Entry with productID "+productDto.getPId());
+//                   return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Duplicate Entry with ProductId "+productDetails.getProductId());
                }
            }catch (Exception e){
                log.error("Error occurred in ProductService =>{}",e.getMessage());

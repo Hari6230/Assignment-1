@@ -74,9 +74,15 @@ public class InventoryService {
        }
     }
 
-    public void deleteInventory(String id) {
-
-        inventoryRepository.deleteByInventoryId(id);
+    public ResponseEntity<String> deleteInventory(String id) {
+        Inventory inventory = inventoryRepository.findByInventoryId(id);
+        if(!ObjectUtils.isEmpty(inventory)){
+            inventoryRepository.deleteByInventoryId(id);
+            return ResponseEntity.status(HttpStatus.OK).body("The Inventory is DELETED successfully");
+        }else{
+            log.error("There is no Inventory present with inventoryID :{}",id);
+            throw new  NoSuchElementException("There is no Inventory present with inventoryID "+id);
+        }
     }
 
 }
