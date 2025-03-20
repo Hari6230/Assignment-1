@@ -4,12 +4,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.sql.Time;
+
 @Entity
 @Table(name = "inventory")
 @Getter
 @Setter
 @NoArgsConstructor
-public class Inventory {
+public class Inventory extends TimeStampEntity {
      @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

@@ -68,7 +68,7 @@ public class ProductService {
     public ResponseEntity<String> updateProduct(String pId,ProductDto productDto) {
         Product product = productRepository.findByProductId(pId);
         if(!ObjectUtils.isEmpty(product)){
-            product.setProductId(productDto.getPName());
+            product.setProductName(productDto.getPName());
             product.setProductDescription(productDto.getPDesc());
             Product save = productRepository.save(product);
             return ResponseEntity.status(HttpStatus.OK).body("The product table is UPDATED");
